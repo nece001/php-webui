@@ -111,29 +111,32 @@ class Component
 
     public function setCss(string $style): static
     {
-        $rules = explode(';', trim(trim($style), ';'));
-        $items = [];
-        foreach ($rules as $rule) {
-            $parts = explode(':', trim($rule));
-            $name = trim($parts[0]);
-            $value = trim($parts[1]);
-            $items[$name] = $value;
-        }
+        if ($style) {
+            $rules = explode(';', trim(trim($style), ';'));
+            $items = [];
+            foreach ($rules as $rule) {
+                $parts = explode(':', trim($rule));
+                $name = trim($parts[0]);
+                $value = trim($parts[1]);
+                $items[$name] = $value;
+            }
 
-        $this->inline_style = $items;
+            $this->inline_style = $items;
+        }
         return $this;
     }
 
     public function addCss(string $style): static
     {
-        $rules = explode(';', trim(trim($style), ';'));
-        foreach ($rules as $rule) {
-            $parts = explode(':', trim($rule));
-            $name = trim($parts[0]);
-            $value = trim($parts[1]);
-            $this->inline_style[$name] = $value;
+        if ($style) {
+            $rules = explode(';', trim(trim($style), ';'));
+            foreach ($rules as $rule) {
+                $parts = explode(':', trim($rule));
+                $name = trim($parts[0]);
+                $value = trim($parts[1]);
+                $this->inline_style[$name] = $value;
+            }
         }
-
         return $this;
     }
 

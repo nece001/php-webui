@@ -83,11 +83,14 @@ abstract class Render
         });
     }
 
-    protected function arrayToJavaScriptObject(array $array, array $replace = []): string
+    protected function arrayToJavaScriptObject(array $array, array $replace): string
     {
+        $array = $this->arrayFilter($array);
         $json = json_encode($array, JSON_UNESCAPED_UNICODE);
-        foreach ($replace as $key => $value) {
-            $json = str_replace('"' . $key . '"', $value, $json);
+        if ($replace) {
+            foreach ($replace as $key => $value) {
+                $json = str_replace('"' . $key . '"', $value, $json);
+            }
         }
         return $json;
     }
