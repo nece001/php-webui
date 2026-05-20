@@ -10,6 +10,7 @@ class Component
     protected $config = [];
     protected $attributes = [];
     protected $children = [];
+    protected $js_functions = [];
 
     public function getConfig(string $name, $default = null)
     {
@@ -162,5 +163,16 @@ class Component
         }
 
         return $id;
+    }
+
+    public function addJsFunction(string $name, string $function): static
+    {
+        $this->js_functions[$name] = $function;
+        return $this;
+    }
+
+    public function getJsFunctions(): array
+    {
+        return $this->js_functions;
     }
 }
