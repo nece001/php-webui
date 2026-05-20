@@ -107,10 +107,10 @@ class Dropdown extends Component
         return $this;
     }
 
-    public function setClickJsFunction(string $func): static
+    public function setOnClickJsFunction(string $func): static
     {
-        $this->config['click'] = 'click_js_function';
-        $this->addJsFunction('click_js_function', $func);
+        $this->config['on_click'] = 'on_click_js_function';
+        $this->addJsFunction('on_click_js_function', $func);
         return $this;
     }
 

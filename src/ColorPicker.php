@@ -46,10 +46,10 @@ class ColorPicker extends Component
         return $this;
     }
 
-    public function setChangeJsFunction(string $func): self
+    public function setOnChangeJsFunction(string $func): self
     {
-        $this->config['change'] = 'change_js_function';
-        $this->addJsFunction('change_js_function', $func);
+        $this->config['on_change'] = 'on_change_js_function';
+        $this->addJsFunction('on_change_js_function', $func);
         return $this;
     }
 
