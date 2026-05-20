@@ -48,6 +48,12 @@ class Control extends Component
         return $this;
     }
 
+    public function setSeparator(string $separator): static
+    {
+        $this->config['separator'] = $separator;
+        return $this;
+    }
+
     public function setAffix(string $affix): static
     {
         $this->config['affix'] = $affix;
