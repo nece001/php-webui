@@ -52,13 +52,13 @@ class Input extends Control
 
     public function setValidate(array $validate): static
     {
-        $this->setAttribute('validate', $validate);
+        $this->config['validate'] = $validate;
         return $this;
     }
 
     public function setValidateType(string $validate_type): static
     {
-        $this->setAttribute('validate_type', $validate_type);
+        $this->config['validate_type'] = $validate_type;
         return $this;
     }
 
