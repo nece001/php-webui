@@ -56,4 +56,10 @@ class Button extends Control
         $this->config['fluid'] = $fluid;
         return $this;
     }
+
+    public function setAction(Action $action): self
+    {
+        $this->config['action'] = $action->toArray();
+        return $this;
+    }
 }
