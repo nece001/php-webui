@@ -27,6 +27,12 @@ class DataGrid extends Component
         return $this;
     }
 
+    public function setToolbar(bool $toolbar = true): static
+    {
+        $this->config['toolbar'] = $toolbar;
+        return $this;
+    }
+
     public function setExportUrl(string $url): static
     {
         $this->config['export_url'] = $url;
@@ -38,8 +44,6 @@ class DataGrid extends Component
         $this->config['checkbox'] = $checkbox;
         return $this;
     }
-
-
 
     public function setPageVarName(string $pageVarName = 'page'): static
     {
