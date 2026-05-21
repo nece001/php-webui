@@ -54,6 +54,12 @@ class Action extends Component
         return $this;
     }
 
+    public function setEventName(string $event_name): static
+    {
+        $this->config['event_name'] = $event_name;
+        return $this;
+    }
+
     public function toArray(): array
     {
         return $this->config;
