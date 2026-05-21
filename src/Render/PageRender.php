@@ -8,6 +8,12 @@ class PageRender extends Render
 {
     private static $style_code = [];
     private static $javascript_code = [];
+    private static $data_clear_functions = [];
+
+    public static function addDataClearFunction(string $key, callable $func): void
+    {
+        static::$data_clear_functions[$key] = $func;
+    }
 
     public static function addJavaScriptCode(string $code, string $key = ''): void
     {
@@ -33,6 +39,12 @@ class PageRender extends Render
             $this->renderHeader(),
             $this->renderBody(),
         ];
+
+        if (self::$data_clear_functions) {
+            foreach (self::$data_clear_functions as $func) {
+                $func();
+            }
+        }
 
         return '<!DOCTYPE html>' . $this->renderHtml('html', [], $nodes);
     }
