@@ -59,7 +59,7 @@ class Button extends Control
 
     public function setAction(Action $action): self
     {
-        $this->config['action'] = $action->toArray();
+        $this->config['action'] = $action;
         return $this;
     }
 }

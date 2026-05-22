@@ -16,8 +16,14 @@ class DataGrid extends Component
         if (!$child instanceof DataGridColumns) {
             throw new \InvalidArgumentException('DataGrid only accept DataGridColumns children');
         }
-        
+
         $this->children[] = $child;
+        return $this;
+    }
+
+    public function setData(array $data): static
+    {
+        $this->config['data'] = $data;
         return $this;
     }
 
@@ -42,6 +48,12 @@ class DataGrid extends Component
     public function setCheckboxColumn(bool $checkbox = true): static
     {
         $this->config['checkbox'] = $checkbox;
+        return $this;
+    }
+
+    public function setPagination(bool $pagination = true): static
+    {
+        $this->config['pagination'] = $pagination;
         return $this;
     }
 
@@ -81,51 +93,15 @@ class DataGrid extends Component
         return $this;
     }
 
-    public function addFormAction(string $event, string $url, string $save_url, string $text, string $icon = '')
+    public function addTool(Button $button): static
     {
-        $this->config['actions'][$event] = [
-            'type' => 'form',
-            'text' => $text,
-            'icon' => $icon,
-            'url' => $url,
-            'save_url' => $save_url,
-        ];
+        $this->config['tools'][] = $button;
         return $this;
     }
 
-    public function addAction(string $event, string $url, string $text, string $message, string $icon = '')
+    public function addOperation(Button $button): static
     {
-        $this->config['actions'][$event] = [
-            'type' => 'action',
-            'text' => $text,
-            'icon' => $icon,
-            'url' => $url,
-            'message' => $message,
-        ];
-        return $this;
-    }
-
-    public function addTool(string $event, string $url, string $text, string $message, string $icon)
-    {
-        $this->config['tools'][$event] = [
-            'type' => 'tool',
-            'text' => $text,
-            'icon' => $icon,
-            'url' => $url,
-            'message' => $message,
-        ];
-        return $this;
-    }
-
-    public function addFormTool(string $event, string $url, string $save_url, string $text, string $icon)
-    {
-        $this->config['tools'][$event] = [
-            'type' => 'form',
-            'text' => $text,
-            'icon' => $icon,
-            'url' => $url,
-            'save_url' => $save_url,
-        ];
+        $this->config['operations'][] = $button;
         return $this;
     }
 }

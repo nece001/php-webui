@@ -4,6 +4,11 @@ namespace Nece\WebUi;
 
 class Action extends Component
 {
+    public function __construct(string $event_name='action')
+    {
+        $this->config['event_name'] = $event_name;
+    }
+
     public function setBindId(string $bind_id): static
     {
         $this->config['bind_id'] = $bind_id;
