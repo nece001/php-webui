@@ -56,4 +56,13 @@ class Form extends Component
         $this->config['button_align'] = $align;
         return $this;
     }
+
+    public function bindDataGrid(DataGrid $dataGrid, bool $from_data_grid = false): static
+    {
+        if (!$from_data_grid) {
+            $dataGrid->bindForm($this);
+        }
+        $this->config['data_grid'] = $dataGrid;
+        return $this;
+    }
 }

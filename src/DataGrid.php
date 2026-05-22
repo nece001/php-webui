@@ -104,4 +104,11 @@ class DataGrid extends Component
         $this->config['operations'][] = $button;
         return $this;
     }
+
+    public function bindForm(Form $form): static
+    {
+        $form->bindDataGrid($this, true);
+        $this->config['form'] = $form;
+        return $this;
+    }
 }

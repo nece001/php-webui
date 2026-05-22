@@ -62,4 +62,12 @@ class Button extends Control
         $this->config['action'] = $action;
         return $this;
     }
+
+    public function setFilter(string $filter): self
+    {
+        $this->config['filter'] = $filter;
+        $this->setAttribute('type', 'button');
+        $this->setAttribute('lay-submit', '');
+        return $this;
+    }
 }
