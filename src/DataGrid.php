@@ -105,10 +105,10 @@ class DataGrid extends Component
         return $this;
     }
 
-    public function bindForm(Form $form): static
+    public function bindSearchForm(Form $form): static
     {
         $form->bindDataGrid($this, true);
-        $this->config['form'] = $form;
+        $this->config['search_form'] = $form;
         return $this;
     }
 }

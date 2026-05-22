@@ -60,7 +60,7 @@ class Form extends Component
     public function bindDataGrid(DataGrid $dataGrid, bool $from_data_grid = false): static
     {
         if (!$from_data_grid) {
-            $dataGrid->bindForm($this);
+            $dataGrid->bindSearchForm($this);
         }
         $this->config['data_grid'] = $dataGrid;
         return $this;
