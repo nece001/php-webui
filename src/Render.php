@@ -3,6 +3,7 @@
 namespace Nece\WebUi;
 
 use Nece\WebUi\Render\ContentRender;
+use Nece\WebUi\Render\TagRender;
 use Spatie\HtmlElement\HtmlElement;
 
 abstract class Render
