@@ -50,7 +50,7 @@ class Form extends Component
         return $this;
     }
 
-    public function addButtons(array $buttons, string $align = ''): static
+    public function setButtons(array $buttons, string $align = ''): static
     {
         $this->config['buttons'] = $buttons;
         $this->config['button_align'] = $align;
