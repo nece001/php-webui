@@ -6,6 +6,17 @@ use Nece\WebUi\DataGridColumn;
 
 class DataGridColumns extends Component
 {
+    public function setDataGrid(DataGrid $dataGrid): static
+    {
+        $this->config['dataGrid'] = $dataGrid;
+        return $this;
+    }
+
+    public function getDataGrid(): DataGrid
+    {
+        return $this->config['dataGrid'];
+    }
+
     public function addChild(Component $child): static
     {
         if (!$child instanceof DataGridColumn) {

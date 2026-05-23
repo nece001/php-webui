@@ -7,6 +7,7 @@ class DataGrid extends Component
     public function addColumns(): DataGridColumns
     {
         $columns = new DataGridColumns();
+        $columns->setDataGrid($this);
         $this->children[] = $columns;
         return $columns;
     }
