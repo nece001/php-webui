@@ -71,4 +71,19 @@ class Page extends Component
         $this->config['style_urls'][] = $url;
         return $this;
     }
+
+    /**
+     * 添加ajax请求前拦截函数
+     *
+     * @author nece001@163.com
+     * @create 2026-05-23 11:48:22
+     *
+     * @param string $js ajax请求前拦截函数js，如：function(string data){ return array('X-Timestamp' => '1694556000000', 'X-Nonce' => '123456', 'X-Sign' => '12313213123213');}
+     * @return static
+     */
+    public function setAjaxBeforeInterceptJsFunction(string $js): static
+    {
+        $this->config['ajax_before_intercept_js_function'] = $js;
+        return $this;
+    }
 }
