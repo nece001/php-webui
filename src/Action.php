@@ -4,7 +4,7 @@ namespace Nece\WebUi;
 
 class Action extends Component
 {
-    public function __construct(string $event_name='action')
+    public function __construct(string $event_name = 'action')
     {
         $this->config['event_name'] = $event_name;
     }
@@ -21,7 +21,7 @@ class Action extends Component
         return $this;
     }
 
-    public function setMethod(string $method = 'POST'): static
+    public function setMethod(string $method): static
     {
         $this->config['method'] = $method;
         return $this;
@@ -65,8 +65,47 @@ class Action extends Component
         return $this;
     }
 
+    public function setParamName(string $param_name): static
+    {
+        $this->config['param_name'] = $param_name;
+        return $this;
+    }
+
     public function toArray(): array
     {
-        return $this->config;
+        $config = $this->config;
+
+        $method = 'get';
+        $type = isset($config['type']) ? $config['type'] : '';
+        if ($type == 'form') {
+            $config['method'] = 'get';
+        }
+
+        if (isset($config['method'])) {
+            $method = strtolower($config['method']);
+        }
+
+        $param_name = isset($config['param_name']) ? $config['param_name'] : 'id';
+        if (in_array($method, ['post'])) {
+            $config['data'][$param_name] = '{value}';
+        } else {
+            if (isset($config['url'])) {
+                $url = $config['url'];
+                $params = [];
+                if (false !== strpos($url, '?')) {
+                    $query = substr($url, strpos($url, '?') + 1);
+                    $params = parse_str($query, $params);
+                    if (!isset($params[$param_name])) {
+                        $url .= '&' . $param_name . '={value}';
+                    }
+                } else {
+                    $url .= '?' . $param_name . '={value}';
+                }
+
+                $config['url'] = $url;
+            }
+        }
+
+        return $config;
     }
 }
