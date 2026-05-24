@@ -12,7 +12,6 @@ class TreeDataGrid extends DataGrid
 
     public function setAsyncUrl(string $url): static
     {
-        $this->setAsync(true);
         $this->config['async_url'] = $url;
         return $this;
     }
@@ -28,7 +27,6 @@ class TreeDataGrid extends DataGrid
      */
     public function setAsyncParams(array $params): static
     {
-        $this->setAsync(true);
         $this->config['async_params'] = $params;
         return $this;
     }
