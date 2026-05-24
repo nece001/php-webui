@@ -61,4 +61,10 @@ class CheckBox extends Control
         $this->config['switch'] = $switch;
         return $this;
     }
+
+    public function setClearInputBorder(bool $border = true): static
+    {
+        $this->config['clear_input_border'] = $border;
+        return $this;
+    }
 }

@@ -54,4 +54,10 @@ class Radio extends Control
     {
         return $this->config['options'];
     }
+
+    public function setClearInputBorder(bool $border = true): static
+    {
+        $this->config['clear_input_border'] = $border;
+        return $this;
+    }
 }
