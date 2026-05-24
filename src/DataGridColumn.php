@@ -57,4 +57,11 @@ class DataGridColumn extends Component
         $this->config['col_span'] = $colSpan;
         return $this;
     }
+
+    public function setSwitch(string $switch): static
+    {
+        $this->config['template'] = 'switch';
+        $this->config['switch'] = $switch;
+        return $this;
+    }
 }
