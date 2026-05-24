@@ -50,6 +50,12 @@ class Form extends Component
         return $this;
     }
 
+    public function setInlineLayout(bool $inline_layout = true): static
+    {
+        $this->config['inline_layout'] = $inline_layout;
+        return $this;
+    }
+
     public function setButtons(array $buttons, string $align = ''): static
     {
         $this->config['buttons'] = $buttons;
