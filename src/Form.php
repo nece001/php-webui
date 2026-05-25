@@ -30,10 +30,6 @@ class Form extends Component
 
     public function addChild(Component $child): static
     {
-        if (!$child instanceof Control) {
-            throw new \Exception('Form must add Control child');
-        }
-
         $this->children[] = $child;
         return $this;
     }
