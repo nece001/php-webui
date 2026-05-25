@@ -4,6 +4,7 @@ namespace Nece\WebUi;
 
 class Uploader extends Component
 {
+
     public function setButtonText(string $text): static
     {
         $this->config['button_text'] = $text;
@@ -36,7 +37,8 @@ class Uploader extends Component
 
     public function setDataFunctions(array $functions): static
     {
-        $this->config['functions']['data_functions'] = $functions;
+        $this->config['data_functions'] = 'data_functions';
+        $this->addJsFunction('data_functions', $functions);
         return $this;
     }
 
@@ -156,37 +158,44 @@ class Uploader extends Component
 
     public function setChooseFunction(string $function): static
     {
-        $this->config['functions']['choose_function'] = $function;
+
+        $this->config['choose'] = 'choose_function';
+        $this->addJsFunction('choose_function', $function);
         return $this;
     }
 
     public function setUploadBeforeFunction(string $function): static
     {
-        $this->config['functions']['upload_before_function'] = $function;
+        $this->config['upload_before'] = 'upload_before_function';
+        $this->addJsFunction('upload_before_function', $function);
         return $this;
     }
 
     public function setProgressFunction(string $function): static
     {
-        $this->config['functions']['progress_function'] = $function;
+        $this->config['progress'] = 'progress_function';
+        $this->addJsFunction('progress_function', $function);
         return $this;
     }
 
     public function setDoneFunction(string $function): static
     {
-        $this->config['functions']['done_function'] = $function;
+        $this->config['done'] = 'done_function';
+        $this->addJsFunction('done_function', $function);
         return $this;
     }
 
     public function setAllDoneFunction(string $function): static
     {
-        $this->config['functions']['all_done_function'] = $function;
+        $this->config['all_done'] = 'all_done_function';
+        $this->addJsFunction('all_done_function', $function);
         return $this;
     }
 
     public function setUploadErrorFunction(string $function): static
     {
-        $this->config['functions']['upload_error_function'] = $function;
+        $this->config['upload_error'] = 'upload_error_function';
+        $this->addJsFunction('upload_error_function', $function);
         return $this;
     }
 }
