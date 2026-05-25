@@ -58,10 +58,11 @@ class DataGridColumn extends Component
         return $this;
     }
 
-    public function setSwitch(string $switch): static
+    public function setSwitch(string $switch, ?Action $action = null): static
     {
         $this->config['template'] = 'switch';
         $this->config['switch'] = $switch;
+        $this->config['switch_action'] = $action;
         return $this;
     }
 }
