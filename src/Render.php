@@ -95,4 +95,16 @@ abstract class Render
         }
         return $json;
     }
+
+    protected function replaceTemplateVarName(string $template)
+    {
+        $pattern = '/({([^{}]+)})/';
+        if (preg_match_all($pattern, $template, $matches)) {
+            foreach ($matches[2] as $i => $name) {
+                $hold = $matches[0][$i];
+                $template = str_replace($hold, '{{=d.' . $name . '}}', $template);
+            }
+        }
+        return $template;
+    }
 }
