@@ -54,6 +54,19 @@ class Control extends Component
         return $this;
     }
 
+    public function setValidate(array $validate): static
+    {
+        $this->config['validate'] = $validate;
+        return $this;
+    }
+
+    public function setValidateType(string $validate_type): static
+    {
+        $this->config['validate_type'] = $validate_type;
+        return $this;
+    }
+
+
     public function setAffix(string $affix): static
     {
         $this->config['affix'] = $affix;

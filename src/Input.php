@@ -50,18 +50,6 @@ class Input extends Control
         return $this;
     }
 
-    public function setValidate(array $validate): static
-    {
-        $this->config['validate'] = $validate;
-        return $this;
-    }
-
-    public function setValidateType(string $validate_type): static
-    {
-        $this->config['validate_type'] = $validate_type;
-        return $this;
-    }
-
     public function setAncestorId(string $ancestorId): static
     {
         $this->config['ancestor_id'] = $ancestorId;
