@@ -4,9 +4,15 @@ namespace Nece\WebUi;
 
 class Transfer extends Component
 {
-    public function setTitle(string $title): static
+    public function setFieldName(string $name): static
     {
-        $this->config['title'] = $title;
+        $this->config['field_name'] = $name;
+        return $this;
+    }
+
+    public function setTitle(string $left, string $right): static
+    {
+        $this->config['title'] = [$left, $right];
         return $this;
     }
 
