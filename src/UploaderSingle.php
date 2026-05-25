@@ -9,4 +9,10 @@ class UploaderSingle extends Uploader
         $this->config['preview'] = $preview;
         return $this;
     }
+
+    public function setValue(string $value): static
+    {
+        $this->config['value'] = $value;
+        return $this;
+    }
 }
