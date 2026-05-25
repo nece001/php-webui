@@ -16,6 +16,12 @@ class Control extends Component
         return $this;
     }
 
+    public function setTitle(string $title): static
+    {
+        $this->setAttribute('title', $title);
+        return $this;
+    }
+    
     public function setDisabled(bool $disabled = true): static
     {
         if ($disabled) {
