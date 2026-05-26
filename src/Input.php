@@ -50,6 +50,14 @@ class Input extends Control
         return $this;
     }
 
+    public function setAutocomplete(bool $autocomplete = true): static
+    {
+        if (!$autocomplete) {
+            $this->setAttribute('autocomplete', 'off');
+        }
+        return $this;
+    }
+
     public function setAncestorId(string $ancestorId): static
     {
         $this->config['ancestor_id'] = $ancestorId;
