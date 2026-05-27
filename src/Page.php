@@ -72,6 +72,18 @@ class Page extends Component
         return $this;
     }
 
+    public function setPrepend(string $prepend): static
+    {
+        $this->config['prepend'] = $prepend;
+        return $this;
+    }
+
+    public function setAppend(string $append): static
+    {
+        $this->config['append'] = $append;
+        return $this;
+    }
+
     /**
      * 添加ajax请求前拦截函数
      *

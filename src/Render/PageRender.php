@@ -90,11 +90,23 @@ class PageRender extends Render
     {
         $children = $this->component->getChildren();
         $javascript_urls = $this->component->getConfig('javascript_urls', []);
+        $prepend = $this->component->getConfig('prepend', '');
+        $append = $this->component->getConfig('append', '');
 
         $nodes = [];
+
+        if ($prepend) {
+            $nodes[] = $prepend;
+        }
+
         foreach ($children as $child) {
             $nodes[] = $this->getRender($child)->render();
         }
+
+        if ($append) {
+            $nodes[] = $append;
+        }
+
         if ($javascript_urls) {
             foreach ($javascript_urls as $url) {
                 $nodes[] = $this->renderHtml('script', ['src' => $url]);
