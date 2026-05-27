@@ -96,14 +96,33 @@ abstract class Render
         return $json;
     }
 
-    protected function replaceTemplateVarName(string $template)
+    protected function templateFetchPlaceholders(string $template): array
     {
+        $data = [];
         $pattern = '/({([^{}]+)})/';
         if (preg_match_all($pattern, $template, $matches)) {
             foreach ($matches[2] as $i => $name) {
                 $hold = $matches[0][$i];
-                $template = str_replace($hold, '{{=d.' . $name . '}}', $template);
+                $data[$name] = $hold;
             }
+        }
+        return $data;
+    }
+
+    protected function templateReplaceVarName(string $template)
+    {
+        $placeholders = $this->templateFetchPlaceholders($template);
+        foreach ($placeholders as $name => $hold) {
+            $template = str_replace($hold, 'd.' . $name, $template);
+        }
+        return $template;
+    }
+
+    protected function templateReplaceOutput(string $template)
+    {
+        $placeholders = $this->templateFetchPlaceholders($template);
+        foreach ($placeholders as $name => $hold) {
+            $template = str_replace($hold, '{{=d.' . $name . '}}', $template);
         }
         return $template;
     }

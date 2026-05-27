@@ -100,9 +100,9 @@ class DataGrid extends Component
         return $this;
     }
 
-    public function addOperation(Button $button): static
+    public function addOperation(Button $button, string $condition = ''): static
     {
-        $this->config['operations'][] = $button;
+        $this->config['operations'][] = ['button' => $button, 'condition' => $condition];
         return $this;
     }
 
