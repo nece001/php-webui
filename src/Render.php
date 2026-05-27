@@ -59,6 +59,11 @@ abstract class Render
             return new ContentRender($component);
         }
 
+        if ($component instanceof RichEditor) {
+            $class_name = $component->getConfig('render_name');
+            return new $class_name($component);
+        }
+
         $class_name = $this->getClassBaseName(get_class($component));
         $namespace = $this->getNamespace(static::class);
         $render_name = $namespace . '\\' . $class_name . 'Render';
