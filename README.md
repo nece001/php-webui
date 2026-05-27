@@ -270,6 +270,10 @@ $dataGrid->addTool(
 $dataGrid->addOperation(
     (new Button())->addChild(new Icon('edit'))->setSize('xs')
         ->setAction((new Action('edit'))->setUrl('/edit')->setOpenForm('编辑'))
+)->addOperation(
+    (new Button())->addChild(new Icon('del'))->setSize('xs')
+        ->setAction((new Action('del'))->setUrl('/del')->setOpenForm('删除'))
+        , '{is_disabled==0}' // 模板条件，判断操作按钮是否显示
 );
 ```
 
