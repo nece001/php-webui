@@ -88,9 +88,9 @@ class DataGrid extends Component
         return $this;
     }
 
-    public function addPermission(array $permission): static
+    public function setPermissions(array $permissions): static
     {
-        $this->config['permission'] = $permission;
+        $this->config['permissions'] = $permissions;
         return $this;
     }
 
