@@ -78,7 +78,16 @@ $card->setTitle('卡片标题')->addChild($content);
 #### Form（表单）
 ```php
 $form = new Form();
-$form->setAction('/submit')->setMethod('post');
+$form->setAction('/submit')
+    ->setMethod('post')
+    ->setInlineLayout()
+    ->addCss('padding:10px');
+
+// 设置按钮
+$form->setButtons([
+    (new Button('submit'))->addChild(new Icon('search'))->addChild(new Content('查询'))->setSize('sm'),
+    (new Button('reset'))->addChild(new Icon('refresh'))->addChild(new Content('重置'))->setSize('sm'),
+], 'center');
 ```
 
 #### Input（输入框）
@@ -87,29 +96,51 @@ $form->setAction('/submit')->setMethod('post');
 $form->addChild((new Input())->setName('username')->setLabel('用户名'));
 
 // 密码框
-$form->addChild((new Input('password'))->setName('password')->setLabel('密码'));
+$form->addChild((new Input('password'))->setName('password')->setLabel('密码')->setAffix('eye'));
 
 // 日期选择
 $form->addChild((new Input('date'))->setName('date')->setLabel('日期'));
 
 // 文本域
 $form->addChild((new Input('textarea'))->setName('content')->setLabel('内容'));
+
+// 带验证的输入框
+$form->addChild((new Input())->setName('email')->setLabel('邮箱')
+    ->setAffix('clear')
+    ->setValidate(['required', 'email'])
+    ->setAutocomplete(false));
+
+// 带附加内容的输入框
+$captcha = new Content('<img src="/captcha">');
+$form->addChild((new Input())->setName('code')->setLabel('验证码')->setAppend($captcha));
 ```
 
 #### Select（选择框）
 ```php
-$form->addChild((new Select())->setName('select')
-    ->addOption(1, '选项1')
-    ->addOption(2, '选项2', true)
-    ->setSelectedValues([2]));
+$select = new Select();
+$select->setName('role')
+    ->setLabel('角色')
+    ->addOption('', '请选择')
+    ->addOption(1, '管理员')
+    ->addOption(2, '普通用户', true) // true 表示禁用
+    ->setSelectedValues([1]);
+$form->addChild($select);
 ```
 
 #### CheckBox（复选框）
 ```php
+// 普通复选框
 $form->addChild((new CheckBox())->setName('checkbox')
     ->addOption(1, '选项1')
     ->addOption(2, '选项2')
     ->setCheckedValues([1, 2]));
+
+// 开关模式
+$form->addChild((new CheckBox())->setName('is_menu')
+    ->setLabel('是否菜单')
+    ->addOption(1, '是')
+    ->setCheckedValues([1])
+    ->setSwitch());
 ```
 
 #### Radio（单选框）
@@ -125,9 +156,23 @@ $form->addChild((new Radio())->setName('radio')
 #### Button（按钮）
 ```php
 $button = new Button();
-$button->addChild(new Content('点击我'))
+$button->addChild(new Icon('search'))
+    ->addChild(new Content('查询'))
     ->setSize('sm')
-    ->setBgColor('blue');
+    ->setBgColor('blue')
+    ->setBorderColor('green')
+    ->setFluid()
+    ->setAction($action);
+
+// 链接按钮
+$button = new Button('link');
+$button->setUrl('/user/{id}')->setTitle('查看详情');
+```
+
+#### Icon（图标）
+```php
+$icon = new Icon('search'); // 图标名称
+$button->addChild($icon);
 ```
 
 #### ButtonGroup（按钮组）
@@ -144,6 +189,33 @@ $buttonGroup->addChild((new Button())->addChild(new Content('按钮1')))
 $nav = new Nav();
 $nav->addChild((new Nav())->setText('首页')->setLink('/'))
     ->addChild((new Nav())->setText('用户管理')->setLink('/user'));
+```
+
+#### NavTree（树形导航）
+```php
+$menu = new NavTree();
+$menu->addItem(new NavItem(1, 0, '/admin', '首页', 'home'));
+$menu->addItem(new NavItem(2, 1, '/admin/user', '用户管理', 'user'));
+$menu->addItem(new NavItem(3, 1, '/admin/role', '角色管理', 'role'));
+
+// 获取根节点
+$root = $menu->getRootItem();
+```
+
+#### NavItem（导航项）
+```php
+$item = new NavItem($id, $parent_id, $url, $title, $icon, $avatar = '', $badge = '', $target = '');
+```
+
+#### AdminFrame（管理后台框架）
+```php
+$adminFrame = new AdminFrame();
+$adminFrame->setLogoImage($logoUrl)
+    ->setLogoText('管理系统')
+    ->setAvatarRoot($avatarNavTree->getRootItem())
+    ->setMenuRoot($menuNavTree->getRootItem())
+    ->setDefaultUrl('/admin/dashboard')
+    ->setFooterContent('© 2024 管理系统');
 ```
 
 #### Tab（标签页）
@@ -173,11 +245,76 @@ $breadCrumb->addLink('/', '首页')
 ```php
 $dataGrid = new DataGrid();
 $dataGrid->setDataUrl('/data')
-    ->setToolbar();
+    ->setCheckboxColumn()
+    ->setPagination()
+    ->setExportUrl('/export');
 
+// 添加列
 $dataGrid->addColumns()
-    ->addColumn((new DataGridColumn())->setTitle('ID')->setField('id'))
-    ->addColumn((new DataGridColumn())->setTitle('名称')->setField('name'));
+    ->addColumn((new DataGridColumn())->setTitle('ID')->setField('id')->setPrimaryKey()->setWidth(80)->setFixed('left'))
+    ->addColumn((new DataGridColumn())->setTitle('名称')->setField('name'))
+    ->addColumn((new DataGridColumn())->setTitle('状态')->setField('status')->setAlign('center')
+        ->setSwitch('是|否', (new Action())->setUrl('/update')->setMethod('POST')->setIsJson())
+    )
+    ->addOperationColumn((new DataGridColumn())->setTitle('操作')->setWidth(200));
+
+// 添加工具按钮
+$dataGrid->addTool(
+    (new Button())->addChild(new Icon('add-1'))->setSize('xs')->setAction(
+        (new Action('add'))->setUrl('/add')->setOpenForm('添加')
+            ->setSubmitAction((new Action('save'))->setUrl('/save')->setMethod('POST')->setIsJson())
+    )
+);
+
+// 添加操作按钮
+$dataGrid->addOperation(
+    (new Button())->addChild(new Icon('edit'))->setSize('xs')
+        ->setAction((new Action('edit'))->setUrl('/edit')->setOpenForm('编辑'))
+);
+```
+
+#### DataGridColumn（表格列）
+```php
+$column = new DataGridColumn();
+$column->setField('id')
+    ->setTitle('ID')
+    ->setWidth(80)
+    ->setAlign('center')
+    ->setFixed('left')
+    ->setPrimaryKey()
+    ->setSwitch('是|否', $action); // 开关列
+```
+
+#### TreeDataGrid（树形数据表格）
+```php
+$tree = new TreeDataGrid();
+$tree->setDataUrl('/tree-data')
+    ->setCheckboxColumn()
+    ->setPagination()
+    ->setCustomNameField('title')
+    ->setCustomPidField('parent_id')
+    ->setCustomIsParentField('is_parent')
+    ->setAsync(true)
+    ->setAsyncUrl('/tree-data')
+    ->setAsyncParams(['parent_id=id']);
+```
+
+#### Tree（树形结构）
+```php
+$tree = new Tree();
+$tree->setData($data)
+    ->setName('permission')
+    ->setShowLine()
+    ->setOnlyIconControl()
+    ->setAccordion()
+    ->setShowCheckbox();
+```
+
+#### TreeNode（树节点）
+```php
+$root = new TreeNode(0, '根节点');
+$root->addChild(new TreeNode(1, '节点1', true)); // true 表示选中
+$data = $root->toArray();
 ```
 
 #### Tree（树形结构）
@@ -261,9 +398,11 @@ $dropdown->addChild((new Button())->addChild(new Content('菜单')))
 #### Transfer（穿梭框）
 ```php
 $transfer = new Transfer();
-$transfer->setTitle('选择项目')
-    ->addData('项目1', '1')
-    ->addData('项目2', '2')
+$transfer->setTitle('可分配', '已分配')
+    ->setFieldName('role_ids')
+    ->addData('角色1', '1')
+    ->addData('角色2', '2')
+    ->setCheckedValues([1])
     ->setShowSearch();
 ```
 
@@ -311,6 +450,28 @@ $button->setAction($action);
 | `setOpenForm($title)` | 设置表单弹窗 |
 | `setSubmitAction($action)` | 设置表单提交后的动作 |
 | `setIsJson($bool)` | 是否 JSON 响应 |
+| `setBindId($id)` | 绑定表单元素 ID |
+| `setParamName($name)` | 设置参数名称 |
+
+### Action 高级用法
+
+```php
+// 打开表单弹窗并设置提交动作
+$action = new Action('add');
+$action->setUrl('/admin/user/add')
+    ->setOpenForm('添加用户')
+    ->setSubmitAction(
+        (new Action('save'))->setUrl('/admin/user/save')->setMethod('POST')->setIsJson()
+    );
+
+// 删除确认弹窗
+$action = new Action('delete');
+$action->setUrl('/admin/user/delete')
+    ->setOpenConfirm('确认删除吗？')
+    ->setMethod('POST')
+    ->setIsJson()
+    ->setParamName('ids');
+```
 
 ## 组件嵌套
 
