@@ -94,6 +94,12 @@ class DataGrid extends Component
         return $this;
     }
 
+    public function setCheckPermission(bool $check_permission = true): static
+    {
+        $this->config['check_permission'] = $check_permission;
+        return $this;
+    }
+
     public function addTool(Button $button): static
     {
         $this->config['tools'][] = $button;
