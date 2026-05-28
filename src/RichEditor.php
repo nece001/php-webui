@@ -16,6 +16,18 @@ class RichEditor extends Control
         return $this;
     }
 
+    public function setScroll(bool $scroll = true): self
+    {
+        $this->config['scroll'] = $scroll;
+        return $this;
+    }
+
+    public function setContentHeight(int $height): self
+    {
+        $this->config['content_height'] = $height;
+        return $this;
+    }
+
     public function setMetas(array $metas): self
     {
         $this->config['metas'] = $metas;

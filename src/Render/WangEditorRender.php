@@ -19,18 +19,35 @@ class WangEditorRender extends Render
     {
         $name = $this->component->getAttribute('name');
         $content = $this->component->getConfig('content', '');
+        $content_height = $this->component->getConfig('content_height');
+        $scroll = $this->component->getConfig('scroll', true);
 
-        $html = '<div id="' . $this->ediotr_id . '-wrapper">
-  <div id="' . $this->ediotr_id . '-toolbar"><!-- 工具栏 --></div>
-  <div id="' . $this->ediotr_id . '-editor"><!-- 编辑器 --></div>
-</div><textarea id="' . $this->ediotr_id . '-content" name="' . $name . '" style="display: none;">' . $content . '</textarea>';
+        $attributes = $this->component->getAttributes();
+        unset($attributes['name']);
+        $attributes['style'] = 'border: 1px solid #ccc;';
 
-        return $html;
+        $editor_attrs = ['id' => $this->ediotr_id . '-editor'];
+        if ($content_height) {
+            if ($scroll) {
+                $editor_attrs['style'] = 'height: ' . $content_height . 'px;';
+            } else {
+                $editor_attrs['style'] = 'min-height: ' . $content_height . 'px;';
+            }
+        }
+
+        $toolbar = $this->renderHtml('div', ['id' => $this->ediotr_id . '-toolbar']);
+        $editor = $this->renderHtml('div', $editor_attrs);
+        $textarea = $this->renderHtml('textarea', ['id' => $this->ediotr_id . '-content', 'name' => $name, 'style' => 'display: none;'], $content);
+
+        return $this->renderHtml('div', $attributes, [$toolbar, $editor, $textarea]);
     }
 
     private function buildJavaScript(): void
     {
         $placeholder = $this->component->getConfig('placeholder', '');
+        $scroll = $this->component->getConfig('scroll', true);
+        $scroll = $scroll ? 'true' : 'false';
+
         $upload_image = $this->component->getConfig('upload_image');
         $upload_video = $this->component->getConfig('upload_video');
         $metas = $this->component->getConfig('metas');
@@ -73,6 +90,7 @@ class WangEditorRender extends Render
         $js = "const { createEditor, createToolbar } = window.wangEditor
                 const editorConfig = {
                     placeholder: '{$placeholder}',
+                    scroll: {$scroll},
                     onChange(editor) {
                         const html = editor.getHtml()
                         console.log('editor content', html)
