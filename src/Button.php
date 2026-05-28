@@ -70,4 +70,10 @@ class Button extends Control
         $this->setAttribute('lay-submit', '');
         return $this;
     }
+
+    public function setCountdown(int $countdown, string $text): self
+    {
+        $this->config['countdown'] = ['countdown' => $countdown, 'text' => $text];
+        return $this;
+    }
 }
