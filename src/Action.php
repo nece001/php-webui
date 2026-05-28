@@ -53,6 +53,13 @@ class Action extends Component
         return $this;
     }
 
+    public function setOpenView(string $title): static
+    {
+        $this->config['type'] = 'view';
+        $this->config['title'] = $title;
+        return $this;
+    }
+
     public function setSubmitAction(Action $action): static
     {
         $this->config['submit_action'] = $action->toArray();
