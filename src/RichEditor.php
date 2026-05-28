@@ -16,6 +16,12 @@ class RichEditor extends Control
         return $this;
     }
 
+    public function setPlaceholder(string $placeholder): self
+    {
+        $this->config['placeholder'] = $placeholder;
+        return $this;
+    }
+
     public function setScroll(bool $scroll = true): self
     {
         $this->config['scroll'] = $scroll;

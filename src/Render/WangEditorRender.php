@@ -24,7 +24,6 @@ class WangEditorRender extends Render
 
         $attributes = $this->component->getAttributes();
         unset($attributes['name']);
-        $attributes['style'] = 'border: 1px solid #ccc;';
 
         $editor_attrs = ['id' => $this->ediotr_id . '-editor'];
         if ($content_height) {
